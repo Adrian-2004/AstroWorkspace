@@ -1,0 +1,101 @@
+---
+// src/components/Estrellas.astro
+interface Props {
+  id?: string; // ID único por si usas varias listas de estrellas
+}
+
+const { id = "rating-general" } = Astro.props;
+---
+
+<div class="rating-container" data-id={id}>
+  <p class="rating-text">Valoración: <span class="rating-value">0</span>/5</p>
+  <div class="stars">
+    <button class="star" data-value="1" type="button" aria-label="1 estrella">★</button>
+    <button class="star" data-value="2" type="button" aria-label="2 estrellas">★</button>
+    <button class="star" data-value="3" type="button" aria-label="3 estrellas">★</button>
+    <button class="star" data-value="4" type="button" aria-label="4 estrellas">★</button>
+    <button class="star" data-value="5" type="button" aria-label="5 estrellas">★</button>
+  </div>
+</div>
+
+<style>
+  .rating-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    font-family: system-ui, sans-serif;
+  }
+
+  .rating-text {
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+
+  .stars {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .star {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #d1d5db; /* Gris apagado por defecto */
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.1s ease;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .star:hover {
+    transform: scale(1.15);
+  }
+
+  .star.active {
+    color: #f59e0b; /* Amarillo estrella activo */
+  }
+</style>
+
+<script>
+  // Este script se ejecuta en el navegador (client-side)
+  document.querySelectorAll('.rating-container').forEach((container) => {
+    const id = container.getAttribute('data-id');
+    const storageKey = `astro_stars_rating_${id}`;
+    
+    const stars = container.querySelectorAll('.star');
+    const ratingValueDisplay = container.querySelector('.rating-value');
+
+    // Cargar la puntuación guardada en localStorage
+    const savedRating = localStorage.getItem(storageKey);
+    if (savedRating) {
+      updateStars(parseInt(savedRating, 10));
+    }
+
+    // Escuchar eventos en cada estrella
+    stars.forEach((star) => {
+      star.addEventListener('click', () => {
+        const rating = parseInt(star.getAttribute('data-value') || '0', 10);
+        localStorage.setItem(storageKey, rating.toString());
+        updateStars(rating);
+      });
+    });
+
+    // Función para iluminar las estrellas correspondientes
+    function updateStars(rating: number) {
+      if (ratingValueDisplay) {
+        ratingValueDisplay.textContent = rating.toString();
+      }
+
+      stars.forEach((star) => {
+        const value = parseInt(star.getAttribute('data-value') || '0', 10);
+        if (value <= rating) {
+          star.classList.add('active');
+        } else {
+          star.classList.remove('active');
+        }
+      });
+    }
+  });
+</script>

@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import Card from "../components/Card.astro";
+import Gatito from "../assets/memeGatito.png";
+import astro from "../assets/astro.svg";
+//se ejectua en el servidor
+const nombre = "Adrián"
+const favoritos = ["Jugar","Dormir", "Programar"]
+---
+<!--Se ejecuta en el cliente-->
+
+<script>
+	const edad = 22
+</script>
+
+<BaseLayout>
+	<h1>Mi primera pagina de Astro</h1>
+	<p>Yo me llamo {nombre}</p>
+	<h2>Hobbies</h2>
+	<ul>
+		{
+			favoritos.map(favorito => <li>{favorito}</li>)
+		}
+	</ul>
+	<Button title= "Tocame">TOCAME</Button>
+	<Card 
+    titulo="Dilema Existencial" 
+    texto="El gatito me representa con cualquier dilema existencial" 
+    imagen={Gatito.src} 
+/>
+</BaseLayout>
+
+

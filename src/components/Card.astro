@@ -1,0 +1,65 @@
+---
+// 1. Definimos las propiedades que va a recibir la card
+interface Props {
+    titulo: string;
+    texto: string;
+    imagen: string; // Recibirá la ruta o el .src de la imagen
+}
+
+// 2. Extraemos las props que nos pasan
+const { titulo, texto, imagen } = Astro.props;
+---
+
+<div class="card">
+    <div class="card-superior">
+        <!-- Usamos la variable 'imagen' -->
+        <img class="gato" src={imagen} alt="imagen card">
+        <!-- Usamos la variable 'titulo' -->
+        <h3>{titulo}</h3>
+    </div>
+
+    <!-- Usamos la variable 'texto' para el párrafo -->
+    <p>{texto}</p>
+</div>
+
+<style>
+    .card {
+        background: #ffffff;
+        border: 1px solid #e1e4e8;
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 450px;
+        margin: 20px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .card-superior {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .gato {
+        width: 150px    ;
+        height: 120px;
+        object-fit: contain;
+        border-radius: 8px;
+    }
+
+    h3 {
+        text-align: left;
+        font-size: 1.25rem;
+        color: #333;
+        margin: 0;
+    }
+
+    p {
+        text-align: left;
+        font-family: 'Times New Roman', Times, serif;
+        color: #666;
+        margin: 0;
+        font-size: 0.95rem;
+    }
+</style>

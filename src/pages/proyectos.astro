@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const proyectos = await getCollection('proyectos');
+---
+
+<BaseLayout>
+  <h1>Lista de todos los proyectos</h1>
+  
+  <div class="grid-proyectos">
+    {proyectos.map(proyecto => (
+      <div class="tarjeta-proyecto">
+        <a href={`/proyectos/${proyecto.id}`}>
+          {proyecto.data.imagen && (
+            <img src={proyecto.data.imagen.src} alt={proyecto.data.titulo} width="250" />
+          )}
+          <h3>{proyecto.data.titulo}</h3>
+        </a>
+      </div>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .grid-proyectos {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .tarjeta-proyecto {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .tarjeta-proyecto img {
+    border-radius: 4px;
+    object-fit: cover;
+    height: 150px;
+    width: 100%;
+  }
+  .tarjeta-proyecto a {
+    text-decoration: none;
+    color: inherit;
+  }
+</style>
