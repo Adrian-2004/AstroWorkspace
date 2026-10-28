@@ -14,7 +14,7 @@ import react from '@astrojs/react';
 
 import mdx from '@astrojs/mdx';
 
-
+import node from '@astrojs/node'
 
 export default defineConfig({
   server: {
@@ -28,5 +28,7 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [react(), mdx()]
+  integrations: [react(), mdx()],
+ 
+  adapter: node({mode: 'standalone'}),
 });
